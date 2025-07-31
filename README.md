@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mood Journal App
 
-## Getting Started
+A private mood journal platform built with Next.js, MongoDB, and AI analysis.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- 🔐 User authentication with NextAuth.js
+- 📸 Upload images with captions and mood tags
+- 🤖 AI-powered mood analysis with personal descriptions
+- 🗑️ Post management (create, delete)
+- 📊 Analytics dashboard (coming soon)
+- 💬 AI chat assistant with personalized suggestions (coming soon)
+
+## Current Status
+
+✅ **Completed:**
+- User registration and authentication
+- Post creation with image upload and mood tags
+- AI mood analysis using Google Gemini
+- Personal mood descriptions ("You seem happy today")
+- Post deletion functionality
+- Database storage and retrieval
+
+🚧 **Coming Soon:**
+- Analytics page with mental health score charts
+- Chat assistant for mood improvement suggestions
+- Complete black theme UI redesign
+
+## Setup
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Create `.env.local` file:**
+   ```env
+   # Database
+   MONGODB_URI=your_mongodb_connection_string_here
+
+   # NextAuth
+   NEXTAUTH_SECRET=your_nextauth_secret_here
+   NEXTAUTH_URL=http://localhost:3000
+
+   # Google AI (Gemini)
+   GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+
+   # Cloudinary
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   ```
+
+3. **Set up services:**
+   - **MongoDB Atlas:** Create a free cluster and get your connection string
+   - **Google AI:** Get an API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - **Cloudinary:** Create a free account and get your credentials
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open [http://localhost:3000](http://localhost:3000) in your browser**
+
+## How it works
+
+1. **User logs in** → Authenticated session created
+2. **User creates a post** → Uploads image + caption + selects mood tags
+3. **AI analyzes the post** → Generates personal mood description and mental health trait scores
+4. **Data is stored** → Post and analysis saved to database
+5. **Posts displayed** → Clean interface showing caption and AI-generated mood
+6. **Analytics (coming soon)** → Charts and insights from all mood data
+7. **Chat assistant (coming soon)** → Personalized suggestions based on mood history
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/           # API routes
+│   ├── login/         # Login page
+│   ├── posts/         # Posts page (✅ working)
+│   ├── analytics/     # Analytics page (🚧 coming soon)
+│   └── chat/          # Chat page (🚧 coming soon)
+├── components/        # React components
+├── lib/              # Utilities and configurations
+├── models/           # MongoDB models
+└── utils/            # Helper functions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development Roadmap
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Phase 1: Core Features ✅
+- [x] User authentication
+- [x] Post creation with AI analysis
+- [x] Post management (delete)
+- [x] Database integration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Phase 2: Analytics 🚧
+- [ ] Analytics page with charts
+- [ ] Mental health score visualization
+- [ ] Mood trend analysis
 
-## Learn More
+### Phase 3: Chat Assistant 🚧
+- [ ] AI chat interface
+- [ ] Personalized mood improvement suggestions
+- [ ] Activity and content recommendations
 
-To learn more about Next.js, take a look at the following resources:
+### Phase 4: UI Enhancement 🎨
+- [ ] Complete black theme redesign
+- [ ] Modern, sleek interface
+- [ ] Responsive design improvements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend:** Next.js 15, TypeScript, Tailwind CSS
+- **Backend:** Next.js API routes
+- **Database:** MongoDB with Mongoose
+- **Authentication:** NextAuth.js
+- **AI:** Google Gemini 2.0 Flash
+- **Image Storage:** Cloudinary
