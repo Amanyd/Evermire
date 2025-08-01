@@ -103,15 +103,17 @@ async function analyzeMood(imageUrl: string, caption: string, tags: string[]) {
     ${tagsText}
     
     Please provide:
-    1. A brief, personal mood description (one short sentence using "you" - e.g., "You seem happy and energetic today")
-    2. Mental health trait scores (0-10 scale) for: anxiety, depression, stress, happiness, energy, confidence
-    3. Overall mood category: very_happy, happy, neutral, sad, very_sad
+    1. A detailed mood description (2-3 sentences for database storage)
+    2. A brief one-liner mood description (one short sentence using "you" for display)
+    3. Mental health trait scores (0-10 scale) for: anxiety, depression, stress, happiness, energy, confidence
+    4. Overall mood category: very_happy, happy, neutral, sad, very_sad
     
     Consider the user's self-selected tags when analyzing the mood.
     
     Respond in JSON format:
     {
-      "moodDescription": "brief personal description using 'you'",
+      "detailedMoodDescription": "detailed 2-3 sentence description for database",
+      "moodDescription": "brief one-liner using 'you' for display",
       "mentalHealthTraits": {
         "anxiety": 0-10,
         "depression": 0-10,
@@ -156,6 +158,7 @@ async function analyzeMood(imageUrl: string, caption: string, tags: string[]) {
     const analysis = JSON.parse(jsonString);
     
     return {
+      detailedMoodDescription: analysis.detailedMoodDescription,
       moodDescription: analysis.moodDescription,
       mentalHealthTraits: analysis.mentalHealthTraits,
       overallMood: analysis.overallMood,
@@ -164,6 +167,7 @@ async function analyzeMood(imageUrl: string, caption: string, tags: string[]) {
     console.error('Error analyzing mood:', error);
     // Return default analysis if AI fails
     return {
+      detailedMoodDescription: 'Unable to analyze mood at this time. The AI analysis could not be completed.',
       moodDescription: 'Unable to analyze mood at this time.',
       mentalHealthTraits: {
         anxiety: 5,

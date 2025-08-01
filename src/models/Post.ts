@@ -15,6 +15,10 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   // AI Analysis Results
+  detailedMoodDescription: {
+    type: String,
+    required: true,
+  },
   moodDescription: {
     type: String,
     required: true,
