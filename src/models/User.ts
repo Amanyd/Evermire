@@ -18,6 +18,12 @@ const userSchema = new mongoose.Schema({
   // Context tracking for suggestions and chat
   lastContextHash: String, // Hash of last 3 posts context
   lastContextUpdatedAt: Date, // When context was last updated
+  cachedSuggestions: {
+    activities: [String],
+    movies: [String],
+    songs: [String],
+    food: [String]
+  }, // Cached AI-generated suggestions
 }, {
   timestamps: true,
 });

@@ -5,7 +5,7 @@ import Post from '@/models/Post';
 import User from '@/models/User';
 import { v2 as cloudinary } from 'cloudinary';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { authOptions } from '../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 
 // Configure Cloudinary
 cloudinary.config({

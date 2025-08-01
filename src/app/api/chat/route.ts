@@ -4,7 +4,7 @@ import connectDB from '@/lib/mongodb';
 import ChatMessage from '@/models/ChatMessage';
 import Post from '@/models/Post';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { authOptions } from '../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 
 // Configure Google Gemini
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);

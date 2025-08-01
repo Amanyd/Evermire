@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession, Session } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import User from '@/models/User';
+import { authOptions } from '@/lib/auth';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   try {
     const session: Session | null = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -27,6 +29,20 @@ export async function DELETE(
 
     // Delete the post
     await Post.findByIdAndDelete(postId);
+
+    // Clear cached suggestions since post context has changed
+    console.log(`About to clear cache for user: ${session.user.id} after deleting post: ${postId}`);
+    
+    const updateResult = await User.findByIdAndUpdate(session.user.id, {
+      $unset: {
+        lastContextHash: 1,
+        lastContextUpdatedAt: 1,
+        cachedSuggestions: 1
+      }
+    });
+
+    console.log(`Post deleted: ${postId}, cache clear result:`, updateResult ? 'SUCCESS' : 'FAILED');
+    console.log(`Cleared cached suggestions for user: ${session.user.id}`);
 
     return NextResponse.json({ message: 'Post deleted successfully' });
   } catch (error) {

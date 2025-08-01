@@ -36,15 +36,6 @@ const postSchema = new mongoose.Schema({
     enum: ['very_happy', 'happy', 'neutral', 'sad', 'very_sad'],
     required: true,
   },
-  // AI-generated contextual suggestions
-  suggestions: {
-    activities: [String],
-    movies: [String],
-    songs: [String],
-    food: [String],
-    contextHash: String, // Hash of the context used to generate suggestions
-    generatedAt: Date,   // When the suggestions were generated
-  },
 }, {
   timestamps: true,
 });
