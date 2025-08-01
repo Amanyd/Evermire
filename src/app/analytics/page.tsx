@@ -49,6 +49,12 @@ interface AnalyticsData {
     confidence: number[];
   };
   topMoodDescriptions: string[];
+  suggestions?: {
+    activities: string[];
+    movies: string[];
+    songs: string[];
+    food: string[];
+  };
 }
 
 export default function AnalyticsPage() {
@@ -57,6 +63,7 @@ export default function AnalyticsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -69,81 +76,24 @@ export default function AnalyticsPage() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/posts');
+      setError(null);
+      const response = await fetch('/api/analytics');
       if (response.ok) {
         const data = await response.json();
-        setPosts(data || []);
-        calculateAnalytics(data || []);
+        console.log('fetchPosts: Analytics API response data:', data);
+        setPosts(data.posts || []);
+        setAnalytics(data);
+      } else {
+        throw new Error(`Failed to fetch analytics: ${response.status}`);
       }
     } catch (error) {
-      console.error('Error fetching posts:', error);
+      console.error('Error fetching analytics:', error);
+      setError(error instanceof Error ? error.message : 'Failed to load analytics');
     } finally {
       setLoading(false);
     }
   };
 
-  const calculateAnalytics = (postsData: Post[]) => {
-    if (postsData.length === 0) {
-      setAnalytics(null);
-      return;
-    }
-
-    // Calculate average scores
-    const totalScores = postsData.reduce((acc, post) => ({
-      anxiety: acc.anxiety + post.mentalHealthTraits.anxiety,
-      depression: acc.depression + post.mentalHealthTraits.depression,
-      stress: acc.stress + post.mentalHealthTraits.stress,
-      happiness: acc.happiness + post.mentalHealthTraits.happiness,
-      energy: acc.energy + post.mentalHealthTraits.energy,
-      confidence: acc.confidence + post.mentalHealthTraits.confidence,
-    }), { anxiety: 0, depression: 0, stress: 0, happiness: 0, energy: 0, confidence: 0 });
-
-    const averageScores = {
-      anxiety: Math.round((totalScores.anxiety / postsData.length) * 10) / 10,
-      depression: Math.round((totalScores.depression / postsData.length) * 10) / 10,
-      stress: Math.round((totalScores.stress / postsData.length) * 10) / 10,
-      happiness: Math.round((totalScores.happiness / postsData.length) * 10) / 10,
-      energy: Math.round((totalScores.energy / postsData.length) * 10) / 10,
-      confidence: Math.round((totalScores.confidence / postsData.length) * 10) / 10,
-    };
-
-    // Calculate mood distribution
-    const moodCounts = postsData.reduce((acc, post) => {
-      acc[post.overallMood] = (acc[post.overallMood] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    const moodDistribution = {
-      very_happy: moodCounts.very_happy || 0,
-      happy: moodCounts.happy || 0,
-      neutral: moodCounts.neutral || 0,
-      sad: moodCounts.sad || 0,
-      very_sad: moodCounts.very_sad || 0,
-    };
-
-    // Get recent trends (last 10 posts)
-    const recentPosts = postsData.slice(0, 10).reverse();
-    const recentTrends = {
-      anxiety: recentPosts.map(post => post.mentalHealthTraits.anxiety),
-      depression: recentPosts.map(post => post.mentalHealthTraits.depression),
-      stress: recentPosts.map(post => post.mentalHealthTraits.stress),
-      happiness: recentPosts.map(post => post.mentalHealthTraits.happiness),
-      energy: recentPosts.map(post => post.mentalHealthTraits.energy),
-      confidence: recentPosts.map(post => post.mentalHealthTraits.confidence),
-    };
-
-    // Get top mood descriptions (unique ones)
-    const uniqueDescriptions = [...new Set(postsData.map(post => post.detailedMoodDescription))];
-    const topMoodDescriptions = uniqueDescriptions.slice(0, 5);
-
-    setAnalytics({
-      totalPosts: postsData.length,
-      averageScores,
-      moodDistribution,
-      recentTrends,
-      topMoodDescriptions,
-    });
-  };
 
   const getMoodColor = (mood: string) => {
     switch (mood) {
@@ -179,6 +129,29 @@ export default function AnalyticsPage() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="max-w-7xl mx-auto p-8">
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Error Loading Analytics</h3>
+            <p className="text-gray-500 max-w-md mx-auto mb-6">
+              {error}
+            </p>
+            <button
+              onClick={fetchPosts}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -186,8 +159,20 @@ export default function AnalyticsPage() {
         <h1 className="text-3xl font-bold mb-8">Mental Health Analytics</h1>
         
         {!analytics ? (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No posts yet. Create some posts to see your analytics!</p>
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Analytics Available</h3>
+            <p className="text-gray-500 max-w-md mx-auto">
+              Create your first post to start tracking your mental health journey and see personalized analytics!
+            </p>
+          </div>
+        ) : analytics.totalPosts === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Posts Yet</h3>
+            <p className="text-gray-500 max-w-md mx-auto">
+              Start by creating your first post to see your mental health analytics and get personalized suggestions!
+            </p>
           </div>
         ) : (
           <div className="space-y-8">
@@ -230,21 +215,85 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            {/* Mood Distribution */}
+            {/* AI-Powered Suggestions */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">Mood Distribution</h2>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {Object.entries(analytics.moodDistribution).map(([mood, count]) => (
-                  <div key={mood} className="text-center p-4 rounded-lg">
-                    <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getMoodColor(mood)}`}>
-                      {mood.replace('_', ' ').toUpperCase()}
-                    </div>
-                    <p className="text-2xl font-bold mt-2">{count}</p>
-                    <p className="text-sm text-gray-500">
-                      {Math.round((count / analytics.totalPosts) * 100)}%
-                    </p>
+              <h2 className="text-xl font-semibold mb-4">Personalized Suggestions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Recommended Activities */}
+                <div className="space-y-3">
+                  <h3 className="text-lg font-medium text-gray-800 flex items-center">
+                    <span className="mr-2">🎯</span>
+                    Activities
+                  </h3>
+                  <div className="space-y-2">
+                    {analytics.suggestions?.activities?.map((activity, index) => (
+                      <div key={index} className="bg-blue-50 p-3 rounded-lg">
+                        <p className="text-sm text-blue-800 font-medium">{activity}</p>
+                      </div>
+                    )) || (
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-sm text-gray-600">No suggestions available</p>
+                      </div>
+                    )}
                   </div>
-                ))}
+                </div>
+
+                {/* Recommended Movies */}
+                <div className="space-y-3">
+                  <h3 className="text-lg font-medium text-gray-800 flex items-center">
+                    <span className="mr-2">🎬</span>
+                    Movies
+                  </h3>
+                  <div className="space-y-2">
+                    {analytics.suggestions?.movies?.map((movie, index) => (
+                      <div key={index} className="bg-purple-50 p-3 rounded-lg">
+                        <p className="text-sm text-purple-800 font-medium">{movie}</p>
+                      </div>
+                    )) || (
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-sm text-gray-600">No suggestions available</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Recommended Songs */}
+                <div className="space-y-3">
+                  <h3 className="text-lg font-medium text-gray-800 flex items-center">
+                    <span className="mr-2">🎵</span>
+                    Songs
+                  </h3>
+                  <div className="space-y-2">
+                    {analytics.suggestions?.songs?.map((song, index) => (
+                      <div key={index} className="bg-green-50 p-3 rounded-lg">
+                        <p className="text-sm text-green-800 font-medium">{song}</p>
+                      </div>
+                    )) || (
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-sm text-gray-600">No suggestions available</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Recommended Food */}
+                <div className="space-y-3">
+                  <h3 className="text-lg font-medium text-gray-800 flex items-center">
+                    <span className="mr-2">🍽️</span>
+                    Food
+                  </h3>
+                  <div className="space-y-2">
+                    {analytics.suggestions?.food?.map((food, index) => (
+                      <div key={index} className="bg-orange-50 p-3 rounded-lg">
+                        <p className="text-sm text-orange-800 font-medium">{food}</p>
+                      </div>
+                    )) || (
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-sm text-gray-600">No suggestions available</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -275,74 +324,8 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            {/* Emotional Journey Timeline */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">Your Emotional Journey</h2>
-              {posts.length === 0 ? (
-                <p className="text-gray-500 text-center py-4">No posts yet to show your journey.</p>
-              ) : (
-                <div className="space-y-6">
-                  {posts.map((post, index) => (
-                    <div key={post._id} className="relative">
-                      {/* Timeline line */}
-                      {index < posts.length - 1 && (
-                        <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-300"></div>
-                      )}
-                      
-                      <div className="flex items-start space-x-4">
-                        {/* Timeline dot */}
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm ${
-                          post.overallMood === 'very_happy' ? 'bg-green-500' :
-                          post.overallMood === 'happy' ? 'bg-green-400' :
-                          post.overallMood === 'neutral' ? 'bg-gray-400' :
-                          post.overallMood === 'sad' ? 'bg-yellow-500' :
-                          'bg-red-500'
-                        }`}>
-                          {index + 1}
-                        </div>
-                        
-                        {/* Content */}
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <span className="text-sm text-gray-500">
-                              {new Date(post.createdAt).toLocaleDateString()}
-                            </span>
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              post.overallMood === 'very_happy' ? 'bg-green-100 text-green-800' :
-                              post.overallMood === 'happy' ? 'bg-green-50 text-green-700' :
-                              post.overallMood === 'neutral' ? 'bg-gray-100 text-gray-700' :
-                              post.overallMood === 'sad' ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-red-100 text-red-800'
-                            }`}>
-                              {post.overallMood.replace('_', ' ').toUpperCase()}
-                            </span>
-                          </div>
-                          
-                          <p className="text-gray-800 mb-2 font-medium">"{post.caption}"</p>
-                          
-                          <div className="bg-gray-50 p-3 rounded-lg">
-                            <p className="text-gray-700 text-sm">{post.detailedMoodDescription}</p>
-                          </div>
-                          
-                          {/* Quick scores */}
-                          <div className="flex space-x-4 mt-3 text-xs">
-                            <span className={`${getScoreColor(post.mentalHealthTraits.happiness)}`}>
-                              Happiness: {post.mentalHealthTraits.happiness}/10
-                            </span>
-                            <span className={`${getScoreColor(post.mentalHealthTraits.energy)}`}>
-                              Energy: {post.mentalHealthTraits.energy}/10
-                            </span>
-                            <span className={`${getScoreColor(post.mentalHealthTraits.confidence)}`}>
-                              Confidence: {post.mentalHealthTraits.confidence}/10
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+
+
           </div>
         )}
       </div>

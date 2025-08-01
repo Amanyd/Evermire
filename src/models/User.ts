@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   image: String,
+  // Context tracking for suggestions and chat
+  lastContextHash: String, // Hash of last 3 posts context
+  lastContextUpdatedAt: Date, // When context was last updated
 }, {
   timestamps: true,
 });

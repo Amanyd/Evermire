@@ -36,10 +36,12 @@ export default function PostsPage() {
   const [caption, setCaption] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchPosts = useCallback(async () => {
     try {
       setPostsLoading(true);
+      setError(null);
       console.log('Fetching posts, session:', session);
       const response = await fetch('/api/posts');
       console.log('Response status:', response.status);
@@ -47,11 +49,11 @@ export default function PostsPage() {
         const data = await response.json();
         setPosts(data || []);
       } else {
-        console.error('Failed to fetch posts:', response.status);
-        setPosts([]);
+        throw new Error(`Failed to fetch posts: ${response.status}`);
       }
     } catch (error) {
       console.error('Error fetching posts:', error);
+      setError(error instanceof Error ? error.message : 'Failed to load posts');
       setPosts([]);
     } finally {
       setPostsLoading(false);
@@ -113,7 +115,7 @@ export default function PostsPage() {
     if (!confirm('Are you sure you want to delete this post?')) return;
 
     try {
-      const response = await fetch(`/api/posts/${postId}`, {
+      const response = await fetch(`/api/posts?id=${postId}`, {
         method: 'DELETE',
       });
 
@@ -200,12 +202,36 @@ export default function PostsPage() {
         {/* Posts List */}
         <div className="space-y-6">
           {postsLoading ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500">Loading posts...</p>
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+              <p className="text-gray-500">Loading your posts...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <div className="text-6xl mb-4">⚠️</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Error Loading Posts</h3>
+              <p className="text-gray-500 max-w-md mx-auto mb-6">
+                {error}
+              </p>
+              <button
+                onClick={() => fetchPosts()}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              >
+                Try Again
+              </button>
             </div>
           ) : posts.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500">No posts yet. Create your first post!</p>
+            <div className="text-center py-12">
+              <div className="text-6xl mb-4">📝</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No Posts Yet</h3>
+              <p className="text-gray-500 max-w-md mx-auto mb-6">
+                Start your mental health journey by creating your first post. Share how you&apos;re feeling and get AI-powered insights!
+              </p>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md mx-auto">
+                <p className="text-sm text-blue-800">
+                  💡 <strong>Tip:</strong> Upload a photo and write about your day. Our AI will analyze your mood and provide personalized suggestions.
+                </p>
+              </div>
             </div>
           ) : (
             posts.map((post) => (

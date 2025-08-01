@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
+import { getServerSession, Session } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { authOptions } from '../../auth/[...nextauth]/route';
@@ -9,7 +9,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
+    const session: Session | null = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -33,4 +33,4 @@ export async function DELETE(
     console.error('Error deleting post:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}
