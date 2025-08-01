@@ -275,16 +275,73 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            {/* Detailed Mood Insights */}
+            {/* Emotional Journey Timeline */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">Detailed Mood Insights</h2>
-              <div className="space-y-3">
-                {analytics.topMoodDescriptions.map((description, index) => (
-                  <div key={index} className="p-3 bg-gray-50 rounded-lg">
-                    <p className="text-gray-700">{description}</p>
-                  </div>
-                ))}
-              </div>
+              <h2 className="text-xl font-semibold mb-4">Your Emotional Journey</h2>
+              {posts.length === 0 ? (
+                <p className="text-gray-500 text-center py-4">No posts yet to show your journey.</p>
+              ) : (
+                <div className="space-y-6">
+                  {posts.map((post, index) => (
+                    <div key={post._id} className="relative">
+                      {/* Timeline line */}
+                      {index < posts.length - 1 && (
+                        <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-300"></div>
+                      )}
+                      
+                      <div className="flex items-start space-x-4">
+                        {/* Timeline dot */}
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                          post.overallMood === 'very_happy' ? 'bg-green-500' :
+                          post.overallMood === 'happy' ? 'bg-green-400' :
+                          post.overallMood === 'neutral' ? 'bg-gray-400' :
+                          post.overallMood === 'sad' ? 'bg-yellow-500' :
+                          'bg-red-500'
+                        }`}>
+                          {index + 1}
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-sm text-gray-500">
+                              {new Date(post.createdAt).toLocaleDateString()}
+                            </span>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              post.overallMood === 'very_happy' ? 'bg-green-100 text-green-800' :
+                              post.overallMood === 'happy' ? 'bg-green-50 text-green-700' :
+                              post.overallMood === 'neutral' ? 'bg-gray-100 text-gray-700' :
+                              post.overallMood === 'sad' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {post.overallMood.replace('_', ' ').toUpperCase()}
+                            </span>
+                          </div>
+                          
+                          <p className="text-gray-800 mb-2 font-medium">"{post.caption}"</p>
+                          
+                          <div className="bg-gray-50 p-3 rounded-lg">
+                            <p className="text-gray-700 text-sm">{post.detailedMoodDescription}</p>
+                          </div>
+                          
+                          {/* Quick scores */}
+                          <div className="flex space-x-4 mt-3 text-xs">
+                            <span className={`${getScoreColor(post.mentalHealthTraits.happiness)}`}>
+                              Happiness: {post.mentalHealthTraits.happiness}/10
+                            </span>
+                            <span className={`${getScoreColor(post.mentalHealthTraits.energy)}`}>
+                              Energy: {post.mentalHealthTraits.energy}/10
+                            </span>
+                            <span className={`${getScoreColor(post.mentalHealthTraits.confidence)}`}>
+                              Confidence: {post.mentalHealthTraits.confidence}/10
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

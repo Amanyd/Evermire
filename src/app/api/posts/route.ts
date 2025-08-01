@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     const imageUrl = (uploadResult as { secure_url: string }).secure_url;
 
     // Analyze with Gemini
-    const analysis = await analyzeMood(imageUrl, caption, selectedTags);
+    const analysis = await analyzeMood(imageUrl, caption, selectedTags, session.user.id);
 
     await connectDB();
     const post = new Post({
@@ -90,30 +90,52 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function analyzeMood(imageUrl: string, caption: string, tags: string[]) {
+async function analyzeMood(imageUrl: string, caption: string, tags: string[], userId: string) {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    // Fetch last 3 posts for context
+    await connectDB();
+    const recentPosts = await Post.find({ userId })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .select('detailedMoodDescription moodDescription mentalHealthTraits overallMood createdAt caption');
+
+    const contextText = recentPosts.length > 0 
+      ? `Previous mood context (last ${recentPosts.length} posts):
+${recentPosts.map((post, index) => 
+  `${index + 1}. ${new Date(post.createdAt).toLocaleDateString()}: "${post.caption}" - ${post.detailedMoodDescription}`
+).join('\n')}`
+      : 'No previous posts for context.';
 
     const tagsText = tags.length > 0 ? `User-selected mood tags: ${tags.join(', ')}` : 'No specific mood tags selected';
 
     const prompt = `
     Analyze this image and caption to determine the user's mood and mental health traits.
     
+    Current post:
     Caption: "${caption}"
     ${tagsText}
     
+    ${contextText}
+    
     Please provide:
-    1. A detailed mood description (2-3 sentences for database storage)
-    2. A brief one-liner mood description (one short sentence using "you" for display)
+    1. A detailed mood description (2-3 sentences for database storage) - consider how this fits into the user's emotional journey
+    2. A brief 2-line mood description (2 short sentences using "you" - be descriptive and personal, consider character development)
     3. Mental health trait scores (0-10 scale) for: anxiety, depression, stress, happiness, energy, confidence
     4. Overall mood category: very_happy, happy, neutral, sad, very_sad
     
-    Consider the user's self-selected tags when analyzing the mood.
+    Consider the user's emotional journey and how this current mood relates to their recent posts. Look for patterns, improvements, or changes in their mental state.
+    
+    For the 2-line description, be creative and descriptive. Examples:
+    - "You appear to be in a positive state of mind today. Your energy seems high and you're radiating confidence."
+    - "You seem to be experiencing some stress and anxiety. There's a sense of tension in your current mood."
+    - "You look calm and peaceful in this moment. There's a gentle contentment about your current state."
     
     Respond in JSON format:
     {
       "detailedMoodDescription": "detailed 2-3 sentence description for database",
-      "moodDescription": "brief one-liner using 'you' for display",
+      "moodDescription": "2-line descriptive mood analysis using 'you'",
       "mentalHealthTraits": {
         "anxiety": 0-10,
         "depression": 0-10,
