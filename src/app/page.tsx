@@ -21,8 +21,8 @@ export default function Home() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Mood Journal</h1>
-        <p className="text-gray-600">Loading...</p>
+        <h1 className="text-4xl text-[#eac6b8] font-bold mb-4">Evermire</h1>
+        <div className="text-gray-600 flex justify-center"><div className="spinner"></div></div>
       </div>
     </div>
   );
