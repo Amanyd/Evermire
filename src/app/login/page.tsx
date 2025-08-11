@@ -91,7 +91,7 @@ export default function LoginPage() {
               <input
                 type="text"
                 required
-                className=" bg-[#2a2826] rounded-xl relative block w-full px-3 py-2 placeholder-[#a49c96] text-[#f8f5f2] focus:outline-none sm:text-sm"
+                className=" bg-[#2a2826] rounded-xl relative block w-full px-3 py-2 placeholder-[#a49c96] text-[#f8f5f2] focus:outline-none text-sm"
                 placeholder="Full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -104,7 +104,7 @@ export default function LoginPage() {
               <input
                 type="email"
                 required
-                className=" bg-[#2a2826] rounded-xl relative block w-full px-3 py-2 placeholder-[#a49c96] text-[#f8f5f2] focus:outline-none sm:text-sm"
+                className=" bg-[#2a2826] rounded-xl relative block w-full px-3 py-2 placeholder-[#a49c96] text-[#f8f5f2] focus:outline-none text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -114,7 +114,7 @@ export default function LoginPage() {
               <input
                 type="password"
                 required
-                className=" bg-[#2a2826] rounded-xl relative block w-full px-3 py-2 placeholder-[#a49c96] text-[#f8f5f2] focus:outline-none sm:text-sm"
+                className=" bg-[#2a2826] rounded-xl relative block w-full px-3 py-2 placeholder-[#a49c96] text-[#f8f5f2] focus:outline-none text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

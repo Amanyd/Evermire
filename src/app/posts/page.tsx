@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Navigation from '@/components/Navigation';
-
+import {Trash} from 'lucide-react';
 interface Post {
   _id: string;
   imageUrl: string;
@@ -24,7 +24,7 @@ interface Post {
 
 const moodTags = [
   'Happy', 'Sad', 'Anxious', 'Excited', 'Tired', 'Stressed', 
-  'Calm', 'Frustrated', 'Confident', 'Lonely'
+  'Calm', 'Frustrated', 'Confident', 'Lonely', 'Curious', 'Hopeful'
 ];
 
 export default function PostsPage() {
@@ -130,46 +130,46 @@ export default function PostsPage() {
   };
 
   if (status === 'loading') {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className='w-full h-[100vh] flex justify-center items-center'><div className="spinner"></div></div>
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#1d1c1a] flex justify-center ">
       <Navigation />
-      <div className="max-w-4xl mx-auto p-8">
-        <h1 className="text-3xl font-bold mb-8">My Mood Journal</h1>
+      <div className="mt-18 mx-auto w-full p-8">
+        <h1 className="text-2xl font-bold text-[#eac6b8] mb-8">Nest...</h1>
         
         {/* Create Post Form */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Create New Post</h2>
+        <div className="bg-[#2a2826] rounded-3xl p-6 mb-8">
+          <h2 className="text-xl text-[#f8f5f2] mb-2 font-semibold">Create New Post</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Upload Image
+              <label className="block text-sm font-medium text-[#a49c96] mb-2">
+                 Upload Image
               </label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                className="block cursor-pointer max-w-fit text-sm text-[#a49c96]/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#d98a7d] file:text-[#f8f5f2]"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-[#a49c96] mb-2">
                 Caption
               </label>
               <textarea
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full text-[#a49c96] focus:outline-none px-4 py-3 text-sm bg-[#1d1c1a] rounded-3xl placeholder:text-[#a49c96]/40"
                 rows={3}
                 placeholder="How are you feeling today?"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-[#a49c96] mb-2">
                 Mood Tags (select all that apply)
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -178,10 +178,10 @@ export default function PostsPage() {
                     key={tag}
                     type="button"
                     onClick={() => handleTagToggle(tag)}
-                    className={`px-3 py-2 text-sm rounded-md border transition-colors ${
+                    className={`px-2 py-2 text-sm rounded-full text-[#a49c96] transition-colors ${
                       selectedTags.includes(tag)
-                        ? 'bg-indigo-100 border-indigo-300 text-indigo-700'
-                        : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                        ? 'bg-[#d98a7d] text-[#f8f5f2]'
+                        : 'bg-[#f3e2d9]'
                     }`}
                   >
                     {tag}
@@ -192,7 +192,7 @@ export default function PostsPage() {
             <button
               type="submit"
               disabled={loading}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50"
+              className="bg-[#ef7869] text-[#f8f5f2] px-4 py-2 rounded-full hover:bg-[#d98a7d] cursor-pointer disabled:opacity-50"
             >
               {loading ? 'Creating...' : 'Create Post'}
             </button>
@@ -202,65 +202,78 @@ export default function PostsPage() {
         {/* Posts List */}
         <div className="space-y-6">
           {postsLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-              <p className="text-gray-500">Loading your posts...</p>
+            <div className="text-center flex justify-center items-center py-12">
+              <div className="spinner"></div>
+              
             </div>
           ) : error ? (
             <div className="text-center py-12">
-              <div className="text-6xl mb-4">⚠️</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Error Loading Posts</h3>
-              <p className="text-gray-500 max-w-md mx-auto mb-6">
-                {error}
-              </p>
+              
+              <h3 className="text-l  text-[#a49c96] mb-2">Error Loading Posts</h3>
+              
               <button
                 onClick={() => fetchPosts()}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                className="px-4 py-2 bg-[#d98a7d] text-[#f8f5f2] rounded-full"
               >
                 Try Again
               </button>
             </div>
           ) : posts.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-6xl mb-4">📝</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No Posts Yet</h3>
-              <p className="text-gray-500 max-w-md mx-auto mb-6">
+              
+              <h3 className="text-l  text-[#a49c96] mb-2">No Posts Yet</h3>
+              {/* <p className="text-gray-500 max-w-md mx-auto mb-6">
                 Start your mental health journey by creating your first post. Share how you&apos;re feeling and get AI-powered insights!
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md mx-auto">
                 <p className="text-sm text-blue-800">
                   💡 <strong>Tip:</strong> Upload a photo and write about your day. Our AI will analyze your mood and provide personalized suggestions.
                 </p>
-              </div>
+              </div> */}
             </div>
           ) : (
             posts.map((post) => (
-              <div key={post._id} className="bg-white rounded-lg shadow p-6 relative">
-                <button
-                  onClick={() => handleDelete(post._id)}
-                  className="absolute top-4 right-4 text-red-500 hover:text-red-700 text-lg p-1 rounded-full hover:bg-red-50 transition-colors"
-                  title="Delete post"
-                >
-                  🗑️
-                </button>
-                <div className="flex items-start space-x-4">
-                  <img
-                    src={post.imageUrl}
-                    alt="Post"
-                    className="w-32 h-32 object-cover rounded-lg"
-                  />
-                  <div className="flex-1">
-                    <p className="text-gray-800 mb-2">{post.caption}</p>
-                    <p className="text-sm text-gray-600 mb-2">
-                      <strong>Mood:</strong> {post.moodDescription || 'Analyzing...'}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-2">
-                      {new Date(post.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))
+  <div
+    key={post._id}
+    className="bg-[#f3e2d9] rounded-4xl p-6 relative overflow-hidden"
+  >
+    {/* Delete icon */}
+    <button
+      onClick={() => handleDelete(post._id)}
+      className="absolute top-4 right-4 text-[#eac6b8] hover:text-[#d98a7d] text-lg p-1 rounded-full transition-colors z-10"
+      title="Delete post"
+    >
+      <Trash />
+    </button>
+
+    {/* Invisible spacer under icon */}
+    <div className="float-right w-8 h-8"></div>
+
+    {/* Floated image */}
+    <img
+      src={post.imageUrl}
+      alt="Post"
+      className="post-img w-32 h-32 rounded-3xl object-cover float-left mr-4 mb-2"
+    />
+
+    {/* Caption */}
+    <p className="text-[#d98a7d] mb-2">{post.caption.charAt(0).toUpperCase() + post.caption.slice(1)}</p>
+
+    {/* Mood */}
+    <p className="text-sm text-[#a49c96] mb-2">
+      <strong>Mood:</strong> {post.moodDescription || 'Analyzing...'}
+    </p>
+
+    {/* Date */}
+    <p className="text-sm text-[#a49c96] mt-2">
+      {new Date(post.createdAt).toLocaleDateString()}
+    </p>
+
+    {/* Clear floats */}
+    <div className="clear-both"></div>
+  </div>
+))
+
           )}
         </div>
       </div>

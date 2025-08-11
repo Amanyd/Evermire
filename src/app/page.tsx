@@ -22,7 +22,7 @@ export default function Home() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-4xl text-[#eac6b8] font-bold mb-4">Evermire</h1>
-        <div className="text-gray-600 flex justify-center"><div className="spinner"></div></div>
+        <div className="text-gray-600 flex items-center justify-center"><div className="spinner"></div></div>
       </div>
     </div>
   );

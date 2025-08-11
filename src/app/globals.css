@@ -67,3 +67,13 @@
                   transform: scaleY(-1) rotate(-135deg);
                 }
               }
+.post-img {
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+
+  /* Reserve space for icon above image */
+  shape-outside: inset(-2rem 0px 0px 0px);
+  clip-path: inset(0px 0px 0px 0px);
+}
+

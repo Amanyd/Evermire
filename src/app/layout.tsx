@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} min-h-screen bg-[#1d1c1a]  m-auto max-w-[85%] antialiased`}
+        className={`${poppins.variable} min-h-screen bg-[#1d1c1a]  mx-auto max-w-11/12 antialiased`}
         suppressHydrationWarning={true}
       >
         <NextAuthProvider>
