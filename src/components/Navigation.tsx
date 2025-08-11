@@ -4,13 +4,14 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence, delay } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
+
 
 export default function Navigation() {
   const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const menuVariants = {
+  const menuVariants: Variants = {
     hidden: { height: 0, opacity: 0 },
     visible: {
       height: 'auto',
@@ -28,9 +29,9 @@ export default function Navigation() {
     exit: { height: 0, opacity: 0, transition: { duration: 0.2 } },
   };
 
-  const linkVariants = {
+  const linkVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 800, damping: 50,} },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 800, damping: 50 } },
   };
 
   return (
@@ -57,7 +58,7 @@ export default function Navigation() {
               Moments
             </Link>
             <button
-              onClick={() => signOut({ callbackUrl: '/login' })}
+              onClick={() => void signOut({ callbackUrl: '/login' })}
               className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-2 py-2 rounded-md text-sm font-medium"
             >
               Logout
@@ -96,7 +97,7 @@ export default function Navigation() {
                 <motion.div variants={linkVariants}>
                   <button
                     onClick={() => {
-                      signOut({ callbackUrl: '/login' });
+                      void signOut({ callbackUrl: '/login' });
                       setIsMobileMenuOpen(false);
                     }}
                     className="block w-full text-left py-2 text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
