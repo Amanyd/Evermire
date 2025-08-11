@@ -10,7 +10,7 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;  /* Safari and Chrome */
 }
-
+.html{font-family: 'Poppins', sans-serif;}
 .spinner {
                 width: 36px;
                 height: 36px;

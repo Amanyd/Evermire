@@ -209,11 +209,11 @@ export default function PostsPage() {
           ) : error ? (
             <div className="text-center py-12">
               
-              <h3 className="text-l  text-[#a49c96] mb-2">Error Loading Posts</h3>
+              <h3 className="  text-[#a49c96] mb-2">Error Loading Posts</h3>
               
               <button
                 onClick={() => fetchPosts()}
-                className="px-4 py-2 bg-[#d98a7d] text-[#f8f5f2] rounded-full"
+                className="px-4 py-2 bg-[#d98a7d] cursor-pointer text-[#f8f5f2] rounded-full"
               >
                 Try Again
               </button>

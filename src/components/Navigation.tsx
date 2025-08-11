@@ -100,7 +100,7 @@ export default function Navigation() {
                       void signOut({ callbackUrl: '/login' });
                       setIsMobileMenuOpen(false);
                     }}
-                    className="block w-full text-left py-2 text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
+                    className="block w-full text-left cursor-pointer py-2 text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
                   >
                     Logout
                   </button>

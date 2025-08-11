@@ -17,11 +17,11 @@ interface PostDocument {
   detailedMoodDescription: string;
   mentalHealthTraits: {
     anxiety: number;
-    depression: number;
+    down: number;
     stress: number;
-    happiness: number;
+    joy: number;
     energy: number;
-    confidence: number;
+    bold: number;
   };
   overallMood: string;
   createdAt: Date;
@@ -57,11 +57,11 @@ export async function GET() {
         totalPosts: 0,
         averageScores: {
           anxiety: 0,
-          depression: 0,
+          down: 0,
           stress: 0,
-          happiness: 0,
+          joy: 0,
           energy: 0,
-          confidence: 0
+          bold: 0
         },
         moodDistribution: {
           very_happy: 0,
@@ -72,11 +72,11 @@ export async function GET() {
         },
         recentTrends: {
           anxiety: [],
-          depression: [],
+          down: [],
           stress: [],
-          happiness: [],
+          joy: [],
           energy: [],
-          confidence: []
+          bold: []
         },
         topMoodDescriptions: [],
         suggestions: {
@@ -92,20 +92,20 @@ export async function GET() {
     // Calculate average scores
     const totalScores = posts.reduce((acc, post) => ({
       anxiety: acc.anxiety + post.mentalHealthTraits.anxiety,
-      depression: acc.depression + post.mentalHealthTraits.depression,
+      down: acc.down + post.mentalHealthTraits.down,
       stress: acc.stress + post.mentalHealthTraits.stress,
-      happiness: acc.happiness + post.mentalHealthTraits.happiness,
+      joy: acc.joy + post.mentalHealthTraits.joy,
       energy: acc.energy + post.mentalHealthTraits.energy,
-      confidence: acc.confidence + post.mentalHealthTraits.confidence,
-    }), { anxiety: 0, depression: 0, stress: 0, happiness: 0, energy: 0, confidence: 0 });
+      bold: acc.bold + post.mentalHealthTraits.bold,
+    }), { anxiety: 0, down: 0, stress: 0, joy: 0, energy: 0, bold: 0 });
 
     const averageScores = {
       anxiety: Math.round((totalScores.anxiety / posts.length) * 10) / 10,
-      depression: Math.round((totalScores.depression / posts.length) * 10) / 10,
+      down: Math.round((totalScores.down / posts.length) * 10) / 10,
       stress: Math.round((totalScores.stress / posts.length) * 10) / 10,
-      happiness: Math.round((totalScores.happiness / posts.length) * 10) / 10,
+      joy: Math.round((totalScores.joy / posts.length) * 10) / 10,
       energy: Math.round((totalScores.energy / posts.length) * 10) / 10,
-      confidence: Math.round((totalScores.confidence / posts.length) * 10) / 10,
+      bold: Math.round((totalScores.bold / posts.length) * 10) / 10,
     };
 
     // Calculate mood distribution
@@ -126,11 +126,11 @@ export async function GET() {
     const recentPosts = posts.slice(0, 10).reverse();
     const recentTrends = {
       anxiety: recentPosts.map(post => post.mentalHealthTraits.anxiety),
-      depression: recentPosts.map(post => post.mentalHealthTraits.depression),
+      down: recentPosts.map(post => post.mentalHealthTraits.down),
       stress: recentPosts.map(post => post.mentalHealthTraits.stress),
-      happiness: recentPosts.map(post => post.mentalHealthTraits.happiness),
+      joy: recentPosts.map(post => post.mentalHealthTraits.joy),
       energy: recentPosts.map(post => post.mentalHealthTraits.energy),
-      confidence: recentPosts.map(post => post.mentalHealthTraits.confidence),
+      bold: recentPosts.map(post => post.mentalHealthTraits.bold),
     };
 
     // Get top mood descriptions (unique ones)
@@ -260,7 +260,7 @@ async function generateContextualSuggestions(last3Posts: PostDocument[]): Promis
       return `Post ${index + 1} (${new Date(post.createdAt).toLocaleDateString()}):
 Caption: "${post.caption}"
 Mood Description: "${post.detailedMoodDescription}"
-Mental Health Scores: Anxiety(${post.mentalHealthTraits.anxiety}/10), Depression(${post.mentalHealthTraits.depression}/10), Stress(${post.mentalHealthTraits.stress}/10), Happiness(${post.mentalHealthTraits.happiness}/10), Energy(${post.mentalHealthTraits.energy}/10), Confidence(${post.mentalHealthTraits.confidence}/10)
+Mental Health Scores: Anxiety(${post.mentalHealthTraits.anxiety}/10), Down(${post.mentalHealthTraits.down}/10), Stress(${post.mentalHealthTraits.stress}/10), Joy(${post.mentalHealthTraits.joy}/10), Energy(${post.mentalHealthTraits.energy}/10), Bold(${post.mentalHealthTraits.bold}/10)
 Overall Mood: ${post.overallMood}`;
     }).join('\n\n');
 

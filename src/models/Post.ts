@@ -25,11 +25,11 @@ const postSchema = new mongoose.Schema({
   },
   mentalHealthTraits: {
     anxiety: { type: Number, min: 0, max: 10 },
-    depression: { type: Number, min: 0, max: 10 },
+    down: { type: Number, min: 0, max: 10 },
     stress: { type: Number, min: 0, max: 10 },
-    happiness: { type: Number, min: 0, max: 10 },
+    joy: { type: Number, min: 0, max: 10 },
     energy: { type: Number, min: 0, max: 10 },
-    confidence: { type: Number, min: 0, max: 10 },
+    bold: { type: Number, min: 0, max: 10 },
   },
   overallMood: {
     type: String,
