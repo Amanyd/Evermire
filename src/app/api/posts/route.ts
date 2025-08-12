@@ -162,7 +162,7 @@ ${recentPosts.map((post, index) =>
     Please provide:
     1. A detailed mood description (4-5 sentences for database storage using "you" - be personal and descriptive, consider how this fits into your emotional journey)
     2. A brief 2-line mood description (2 short sentences using "you" - be descriptive and personal, consider character development)
-    3. Mental health trait scores (0-10 scale) for: anxiety, depression, stress, happiness, energy, confidence
+    3. Mental health trait scores (0-10 scale) for: anxiety, down, stress, joy, energy, bold
     4. Overall mood category: very_happy, happy, neutral, sad, very_sad
     
     Consider the user's emotional journey and how this current mood relates to their recent posts. Look for patterns, improvements, or changes in their mental state.
@@ -178,11 +178,11 @@ ${recentPosts.map((post, index) =>
       "moodDescription": "2-line descriptive mood analysis using 'you'",
       "mentalHealthTraits": {
         "anxiety": 0-10,
-        "depression": 0-10,
+        "down": 0-10,
         "stress": 0-10,
-        "happiness": 0-10,
+        "joy": 0-10,
         "energy": 0-10,
-        "confidence": 0-10
+        "bold": 0-10
       },
       "overallMood": "very_happy|happy|neutral|sad|very_sad"
     }
@@ -237,11 +237,11 @@ ${recentPosts.map((post, index) =>
       moodDescription: 'Unable to analyze mood at this time.',
       mentalHealthTraits: {
         anxiety: 5,
-        depression: 5,
+        down: 5,
         stress: 5,
-        happiness: 5,
+        joy: 5,
         energy: 5,
-        confidence: 5,
+        bold: 5,
       },
       overallMood: 'neutral',
     };
@@ -252,11 +252,11 @@ async function generateSuggestions(analysis: {
   detailedMoodDescription: string;
   mentalHealthTraits: {
     anxiety: number;
-    depression: number;
+    down: number;
     stress: number;
-    happiness: number;
+    joy: number;
     energy: number;
-    confidence: number;
+    bold: number;
   };
   overallMood: string;
 }, caption: string) {
@@ -264,7 +264,7 @@ async function generateSuggestions(analysis: {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const contextText = `Current mood context: "${caption}" - ${analysis.detailedMoodDescription}
-Mental health traits: Anxiety: ${analysis.mentalHealthTraits.anxiety}/10, Depression: ${analysis.mentalHealthTraits.depression}/10, Stress: ${analysis.mentalHealthTraits.stress}/10, Happiness: ${analysis.mentalHealthTraits.happiness}/10, Energy: ${analysis.mentalHealthTraits.energy}/10, Confidence: ${analysis.mentalHealthTraits.confidence}/10
+Mental health traits: Anxiety: ${analysis.mentalHealthTraits.anxiety}/10, Down: ${analysis.mentalHealthTraits.down}/10, Stress: ${analysis.mentalHealthTraits.stress}/10, Joy: ${analysis.mentalHealthTraits.joy}/10, Energy: ${analysis.mentalHealthTraits.energy}/10, Bold: ${analysis.mentalHealthTraits.bold}/10
 Overall mood: ${analysis.overallMood}`;
 
     const prompt = `

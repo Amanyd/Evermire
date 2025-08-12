@@ -205,7 +205,7 @@ export default function AnalyticsPage() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {Object.entries(analytics.averageScores).map(([trait, score]) => (
                   <div key={trait} className="flex justify-between items-center p-3 bg-[#f3e2d9] rounded-full">
-                    <span className="capitalize font-medium text-[#a49c96]">{trait}</span>
+                    <span className="capitalize text-xs md:text-sm font-medium text-[#a49c96]">{trait}</span>
                     <span className={`font-bold text-[#d98a7d]`}>{score}/10</span>
                   </div>
                 ))}
