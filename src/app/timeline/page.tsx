@@ -15,9 +15,9 @@ interface Post {
     anxiety: number;
     depression: number;
     stress: number;
-    happiness: number;
+    joy: number;
     energy: number;
-    confidence: number;
+    bold: number;
   };
   overallMood: string;
   createdAt: string;
@@ -70,16 +70,16 @@ export default function TimelinePage() {
   };
 
   if (status === 'loading') {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center"><div className="spinner"></div></div>;
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen flex justify-center bg-[#1d1c1a]">
         <Navigation />
-        <div className="max-w-7xl mx-auto p-8">
+        <div className=" w-[100vw] h-[100vh] flex justify-center items-center mx-auto p-8">
           <div className="text-center py-8">
-            <p className="text-gray-500">Loading timeline...</p>
+            <div className="spinner"></div>
           </div>
         </div>
       </div>
@@ -87,23 +87,19 @@ export default function TimelinePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#1d1c1a] flex justify-center">
       <Navigation />
-      <div className="max-w-7xl mx-auto p-8">
-        <h1 className="text-3xl font-bold mb-8">Your Emotional Journey</h1>
+      <div className="max-w-5xl w-full mt-16 mx-auto p-8">
+        <h1 className="text-2xl text-[#eac6b8] font-bold mb-8">Your Emotional Journey</h1>
         
         {posts.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">📅</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Timeline Available</h3>
-            <p className="text-gray-500 max-w-md mx-auto mb-6">
+            
+            <h3 className="text-lg font-semibold text-[#a49c96] mb-2">No Timeline Available</h3>
+            <p className="text-[#a49c96] max-w-md mx-auto mb-6">
               Create some posts to see your emotional journey over time. Each post will be added to your personal timeline!
             </p>
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 max-w-md mx-auto">
-              <p className="text-sm text-purple-800">
-                💡 <strong>Tip:</strong> Your timeline shows your emotional progression, helping you understand your mental health patterns.
-              </p>
-            </div>
+            
           </div>
         ) : (
           <div className="space-y-6">
@@ -111,48 +107,45 @@ export default function TimelinePage() {
               <div key={post._id} className="relative">
                 {/* Timeline line */}
                 {index < posts.length - 1 && (
-                  <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-300"></div>
+                  <div className="absolute left-6 top-12 w-0.5 h-full bg-[#a49c96]/20"></div>
                 )}
                 
                 <div className="flex items-start space-x-4">
                   {/* Timeline dot */}
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm ${getMoodColor(post.overallMood)}`}>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-[#f8f5f2] font-bold text-sm bg-[#d98a7d]`}>
                     {index + 1}
                   </div>
                   
                   {/* Content */}
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-2">
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-[#f8f5f2]">
                         {new Date(post.createdAt).toLocaleDateString()}
                       </span>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        post.overallMood === 'very_happy' ? 'bg-green-100 text-green-800' :
-                        post.overallMood === 'happy' ? 'bg-green-50 text-green-700' :
-                        post.overallMood === 'neutral' ? 'bg-gray-100 text-gray-700' :
-                        post.overallMood === 'sad' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium text-[#d98a7d] bg-[#f3e2d9]`}>
                         {post.overallMood.replace('_', ' ').toUpperCase()}
                       </span>
                     </div>
                     
-                    <p className="text-gray-800 mb-2 font-medium">&ldquo;{post.caption}&rdquo;</p>
+                    <p className="text-[#f8f5f2] mb-2 font-medium">
+  &ldquo;{post.caption.charAt(0).toUpperCase() + post.caption.slice(1)}&rdquo;
+</p>
+
                     
-                    <div className="bg-gray-50 p-3 rounded-lg">
-                      <p className="text-gray-700 text-sm">{post.detailedMoodDescription}</p>
+                    <div className="bg-[#2a2826] p-3 rounded-3xl">
+                      <p className="text-[#a49c96] text-sm">{post.detailedMoodDescription}</p>
                     </div>
                     
                     {/* Quick scores */}
                     <div className="flex space-x-4 mt-3 text-xs">
-                      <span className={`${getScoreColor(post.mentalHealthTraits.happiness)}`}>
-                        Happiness: {post.mentalHealthTraits.happiness}/10
+                      <span className={`text-[#f8f5f2]`}>
+                        Happiness: {post.mentalHealthTraits.joy}/10
                       </span>
-                      <span className={`${getScoreColor(post.mentalHealthTraits.energy)}`}>
+                      <span className={`text-[#f8f5f2]`}>
                         Energy: {post.mentalHealthTraits.energy}/10
                       </span>
-                      <span className={`${getScoreColor(post.mentalHealthTraits.confidence)}`}>
-                        Confidence: {post.mentalHealthTraits.confidence}/10
+                      <span className={`text-[#f8f5f2]`}>
+                        Confidence: {post.mentalHealthTraits.bold}/10
                       </span>
                     </div>
                   </div>
