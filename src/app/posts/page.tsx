@@ -136,7 +136,7 @@ export default function PostsPage() {
   return (
     <div className="min-h-screen bg-[#1d1c1a] flex justify-center ">
       <Navigation />
-      <div className="mt-18 mx-auto w-full p-8">
+      <div className="mt-18 mx-auto max-w-5xl w-full p-8">
         <h1 className="text-2xl font-bold text-[#eac6b8] mb-8">Nest...</h1>
         
         {/* Create Post Form */}

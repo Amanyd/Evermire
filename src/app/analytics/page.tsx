@@ -119,9 +119,9 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#1d1c1a]">
+      <div className="min-h-screen flex justify-center bg-[#1d1c1a]">
         <Navigation />
-        <div className="max-w-7xl mx-auto p-8">
+        <div className="w-full mx-auto p-8">
           <div className="flex min-h-[100vh] justify-center items-center py-8">
             <div className="spinner"></div>
           </div>
@@ -132,18 +132,18 @@ export default function AnalyticsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#1d1c1a]">
+      <div className="min-h-screen w-full flex justify-center bg-[#1d1c1a]">
         <Navigation />
-        <div className="max-w-7xl mx-auto p-8">
-          <div className="flex min-h-[100vh] justify-center items-center py-12">
+        <div className="w-full mx-auto h-[100vh] flex justify-center items-center my-auto p-8">
+          <div className="flex-col text-center justify-center items-center py-12">
             
             <h3 className="text-[#a49c96] mb-2">Error Loading Analytics</h3>
-            <p className="text-[#a49c96] max-w-md mx-auto mb-6">
+            <p className="text-[#a49c96] ">
               {error}
             </p>
             <button
               onClick={fetchPosts}
-              className="px-4 py-2 bg-[#d98a7d] cursor-pointer text-[#f8f5f2] rounded-full h"
+              className="px-4 py-2 mt-4 bg-[#d98a7d] cursor-pointer text-[#f8f5f2] rounded-full "
             >
               Try Again
             </button>
@@ -154,9 +154,9 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen flex justify-center bg-[#1d1c1a]">
+    <div className="min-h-screen w-full flex justify-center bg-[#1d1c1a]">
       <Navigation />
-      <div className="mt-18 mx-auto w-full p-8">
+      <div className="mt-18 mx-auto max-w-5xl w-full p-8">
         <h1 className="text-2xl text-[#eac6b8] font-bold mb-8">Pulse...</h1>
 
         {!analytics ? (

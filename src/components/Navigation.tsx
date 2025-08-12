@@ -35,7 +35,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="bg-[#2a2826] w-11/12 border-[#d98a7d]/20 border px-6 fixed z-20 rounded-3xl mt-3">
+    <nav className="bg-[#2a2826] w-11/12 max-w-5xl border-[#d98a7d]/20 border px-6 fixed z-20 rounded-3xl mt-3">
       <div className="">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -59,7 +59,7 @@ export default function Navigation() {
             </Link>
             <button
               onClick={() => void signOut({ callbackUrl: '/login' })}
-              className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-2 py-2 rounded-md text-sm font-medium"
+              className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] cursor-pointer px-2 py-2 rounded-md text-sm font-medium"
             >
               Logout
             </button>
@@ -88,7 +88,7 @@ export default function Navigation() {
                 <motion.div variants={linkVariants}>
                   <Link
                     href="/timeline"
-                    className="block py-2 text-left text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
+                    className="block py-2 text-left cursor-pointer text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Moments

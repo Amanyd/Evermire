@@ -100,44 +100,44 @@ export default function ChatPage() {
   };
 
   if (status === 'loading') {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center"><div className="spinner"></div></div>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex justify-center bg-[#1d1c1a]">
       <Navigation />
-      <div className="max-w-4xl mx-auto h-screen flex flex-col">
+      <div className="max-w-5xl w-full mt-18 mx-auto h-screen flex flex-col">
         {/* Header */}
-        <div className="bg-white shadow-sm border-b px-6 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">AI Chat Assistant</h1>
-          <p className="text-sm text-gray-600 mt-1">
-            Chat with your AI assistant about your mood and mental health
+        <div className="bg-[#1d1c1a] fixed z-15 w-11/12 max-w-5xl    rounded-b-4xl   px-6 py-4">
+          <h1 className="text-2xl font-bold text-[#eac6b8]">Whisper...</h1>
+          <p className="text-sm text-[#f8f5f2] mt-1">
+            Heya! How have you been feeling lately?
           </p>
         </div>
 
         {/* Messages Container */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-hide">
-          {isLoadingHistory ? (
+        <div className="flex-1 overflow-y-visible p-6 mt-18 pb-20 space-y-4 scrollbar-hide">
+          {isLoadingHistory ? ( 
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-2"></div>
-                <p className="text-gray-500">Loading chat history...</p>
+                {/* <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-2"></div> */}
+                <div className="spinner"></div>
               </div>
             </div>
           ) : messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
-                <div className="text-6xl mb-4">💬</div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Start a conversation</h3>
-                <p className="text-gray-500 max-w-md mb-4">
+                
+                <h3 className="text-lg font-semibold text-[#a49c96] mb-2">Start a conversation</h3>
+                <p className="text-[#a49c96] max-w-md mb-4">
                   Your AI assistant is here to help with your mental health journey. 
                   Ask about your mood patterns, get advice, or just chat!
                 </p>
-                <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 max-w-md mx-auto">
+                {/* <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 max-w-md mx-auto">
                   <p className="text-sm text-indigo-800">
                     💡 <strong>Tip:</strong> The AI has access to your recent posts and can provide personalized advice based on your mood patterns.
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           ) : (
@@ -147,15 +147,15 @@ export default function ChatPage() {
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                  className={`max-w-xs lg:max-w-md px-6 py-5 rounded-4xl ${
                     message.role === 'user'
-                      ? 'bg-indigo-500 text-white'
-                      : 'bg-white text-gray-800 shadow-sm border'
+                      ? 'bg-[#d98a7d] text-[#f8f5f2]'
+                      : 'bg-[#2a2826] text-[#f8f5f2] '
                   }`}
                 >
                   <p className="text-sm">{message.content}</p>
                   <p className={`text-xs mt-1 ${
-                    message.role === 'user' ? 'text-indigo-100' : 'text-gray-500'
+                    message.role === 'user' ? 'text-[#f8f5f2]' : 'text-[#f8f5f2]'
                   }`}>
                     {formatTime(message.timestamp)}
                   </p>
@@ -167,14 +167,15 @@ export default function ChatPage() {
           {/* Loading indicator for AI response */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-white text-gray-800 shadow-sm border px-4 py-2 rounded-lg">
+              <div className="bg-[#2a2826] text-[#f8f5f2]  px-6 py-4 rounded-4xl">
                 <div className="flex items-center space-x-2">
-                  <div className="animate-pulse flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                  
+                  <span className="text-sm text-[#f8f5f2]">Typing</span>
+                  <div className="animate-pulse items-baseline flex space-x-1">
+                    <div className="w-1 h-1 bg-[#f8f5f2]/90 rounded-full"></div>
+                    <div className="w-1 h-1 bg-[#f8f5f2]/90 rounded-full"></div>
+                    <div className="w-1 h-1 bg-[#f8f5f2]/90 rounded-full"></div>
                   </div>
-                  <span className="text-xs text-gray-500">AI is typing...</span>
                 </div>
               </div>
             </div>
@@ -184,20 +185,20 @@ export default function ChatPage() {
         </div>
 
         {/* Input Form */}
-        <div className="bg-white border-t px-6 py-4">
+        <div className="bg-[#2a2826] rounded-full border-[#d98a7d]/20 border  fixed bottom-3 w-11/12 max-w-5xl px-6 py-3">
           <form onSubmit={sendMessage} className="flex space-x-4">
             <input
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-4 py-2  rounded-lg focus:outline-none  placeholder:text-[#a49c96]/90 text-[#f8f5f2] "
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={!inputMessage.trim() || isLoading}
-              className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-[#d98a7d] text-[#f8f5f2] rounded-full cursor-pointer focus:outline-none  disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Send
             </button>
