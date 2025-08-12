@@ -178,8 +178,8 @@ export default function PostsPage() {
                     key={tag}
                     type="button"
                     onClick={() => handleTagToggle(tag)}
-                    className={`px-2 py-2 text-sm rounded-full text-[#a49c96] transition-colors ${
-                      selectedTags.includes(tag)
+                    className={`px-2 py-2 text-xs md:text-sm rounded-full text-[#a49c96] transition-colors ${
+                      selectedTags.includes(tag) 
                         ? 'bg-[#d98a7d] text-[#f8f5f2]'
                         : 'bg-[#f3e2d9]'
                     }`}
