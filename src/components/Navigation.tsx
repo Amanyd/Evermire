@@ -51,7 +51,7 @@ export default function Navigation() {
             <Link href="/analytics" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-xs md:text-sm font-medium">
               Pulse
             </Link>
-            <Link href="/chat" className="text-[#f8f5f2] hover:text-[#eac6b8] px-2 py-1 rounded-md text-xs md:text-sm font-medium">
+            <Link href="/chat" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-xs md:text-sm font-medium">
               Whisper
             </Link>
             <Link href="/timeline" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-xs md:text-sm font-medium">
@@ -67,7 +67,7 @@ export default function Navigation() {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="sm:hidden text-[#f8f5f2] hover:text-[#eac6b8] p-2 rounded-md"
+              className="sm:hidden text-[#f8f5f2] hover:text-[#eac6b8] p-1 rounded-md"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
