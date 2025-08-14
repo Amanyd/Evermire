@@ -45,21 +45,21 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center ">
-            <Link href="/posts" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-xs md:text-sm font-medium">
+            <Link href="/posts" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
               Nest
             </Link>
-            <Link href="/analytics" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-xs md:text-sm font-medium">
+            <Link href="/analytics" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
               Pulse
             </Link>
-            <Link href="/chat" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-xs md:text-sm font-medium">
+            <Link href="/chat" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
               Whisper
             </Link>
-            <Link href="/timeline" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-xs md:text-sm font-medium">
+            <Link href="/timeline" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
               Moments
             </Link>
             <button
               onClick={() => void signOut({ callbackUrl: '/login' })}
-              className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] cursor-pointer px-1 py-2 rounded-md text-xs md:text-sm font-medium"
+              className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] cursor-pointer px-1 py-2 rounded-md text-sm md:text-sm font-medium"
             >
               Logout
             </button>
@@ -88,7 +88,7 @@ export default function Navigation() {
                 <motion.div variants={linkVariants}>
                   <Link
                     href="/timeline"
-                    className="block py-2 text-left cursor-pointer text-xs md:text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
+                    className="block py-2 text-left cursor-pointer text-sm md:text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Moments
@@ -100,7 +100,7 @@ export default function Navigation() {
                       void signOut({ callbackUrl: '/login' });
                       setIsMobileMenuOpen(false);
                     }}
-                    className="block w-full text-left cursor-pointer py-2 text-xs md:text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
+                    className="block w-full text-left cursor-pointer py-2 text-sm md:text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
                   >
                     Logout
                   </button>
