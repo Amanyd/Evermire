@@ -45,16 +45,16 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center ">
-            <Link href="/posts" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
+            <Link href="/posts" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 md:pr-4 py-2 rounded-md text-sm md:text-sm font-medium">
               Nest
             </Link>
-            <Link href="/analytics" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
+            <Link href="/analytics" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 md:pr-4 py-2 rounded-md text-sm md:text-sm font-medium">
               Pulse
             </Link>
-            <Link href="/chat" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
+            <Link href="/chat" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 md:pr-4 rounded-md text-sm md:text-sm font-medium">
               Whisper
             </Link>
-            <Link href="/timeline" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 rounded-md text-sm md:text-sm font-medium">
+            <Link href="/timeline" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] md:pr-4 px-1 py-2 rounded-md text-sm md:text-sm font-medium">
               Moments
             </Link>
             <button
