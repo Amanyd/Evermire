@@ -45,13 +45,13 @@ export default function Navigation() {
           </div>
 
           <div className="flex items-center ">
-            <Link href="/posts" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 md:pr-4 py-2 rounded-md text-sm md:text-sm font-medium">
+            <Link href="/posts" className="text-[#f8f5f2] hidden sm:block  hover:text-[#eac6b8] px-1 md:pr-4 py-2 rounded-md text-sm md:text-sm font-medium">
               Nest
             </Link>
-            <Link href="/analytics" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 md:pr-4 py-2 rounded-md text-sm md:text-sm font-medium">
+            <Link href="/analytics" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-1 md:pr-4 py-2 rounded-md text-sm md:text-sm font-medium">
               Pulse
             </Link>
-            <Link href="/chat" className="text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 md:pr-4 rounded-md text-sm md:text-sm font-medium">
+            <Link href="/chat" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] px-1 py-2 md:pr-4 rounded-md text-sm md:text-sm font-medium">
               Whisper
             </Link>
             <Link href="/timeline" className="hidden sm:block text-[#f8f5f2] hover:text-[#eac6b8] md:pr-4 px-1 py-2 rounded-md text-sm md:text-sm font-medium">
@@ -85,6 +85,33 @@ export default function Navigation() {
               variants={menuVariants}
             >
               <div className="px-2 pb-3 space-y-1">
+                <motion.div variants={linkVariants}>
+                  <Link
+                    href="/posts"
+                    className="block py-2 text-left cursor-pointer text-sm md:text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Nest
+                  </Link>
+                </motion.div>
+                <motion.div variants={linkVariants}>
+                  <Link
+                    href="/analytics"
+                    className="block py-2 text-left cursor-pointer text-sm md:text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Pulse
+                  </Link>
+                </motion.div>
+                <motion.div variants={linkVariants}>
+                  <Link
+                    href="/chat"
+                    className="block py-2 text-left cursor-pointer text-sm md:text-sm font-medium text-[#f8f5f2] hover:text-[#eac6b8]"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Whisper
+                  </Link>
+                </motion.div>
                 <motion.div variants={linkVariants}>
                   <Link
                     href="/timeline"

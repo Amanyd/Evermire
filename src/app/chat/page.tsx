@@ -185,20 +185,20 @@ export default function ChatPage() {
         </div>
 
         {/* Input Form */}
-        <div className="bg-[#2a2826] rounded-full border-[#d98a7d]/20 border  fixed bottom-3 w-11/12 max-w-5xl px-6 py-3">
-          <form onSubmit={sendMessage} className="flex space-x-4">
+        <div className="bg-[#2a2826] rounded-full border-[#d98a7d]/20 border fixed bottom-3 w-11/12 max-w-5xl px-4 py-2">
+          <form onSubmit={sendMessage} className="w-full flex items-center gap-2">
             <input
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 px-4 py-2  rounded-lg focus:outline-none  placeholder:text-[#a49c96]/90 text-[#f8f5f2] "
+              className="flex-1 min-w-0 px-4 py-2 bg-transparent rounded-lg focus:outline-none placeholder:text-[#a49c96]/90 text-[#f8f5f2]"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={!inputMessage.trim() || isLoading}
-              className="px-6 py-2 bg-[#d98a7d] text-[#f8f5f2] rounded-full cursor-pointer focus:outline-none  disabled:opacity-50 disabled:cursor-not-allowed"
+              className="shrink-0 px-4 py-1 bg-[#d98a7d] text-[#f8f5f2] rounded-full cursor-pointer focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
             >
               Send
             </button>
