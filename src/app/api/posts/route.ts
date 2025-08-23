@@ -132,7 +132,7 @@ export async function DELETE(request: NextRequest) {
 
 async function analyzeMood(imageUrl: string, caption: string, tags: string[], userId: string) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     // Fetch last 3 posts for context
     await connectDB();
@@ -261,7 +261,7 @@ async function generateSuggestions(analysis: {
   overallMood: string;
 }, caption: string) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     const contextText = `Current mood context: "${caption}" - ${analysis.detailedMoodDescription}
 Mental health traits: Anxiety: ${analysis.mentalHealthTraits.anxiety}/10, Down: ${analysis.mentalHealthTraits.down}/10, Stress: ${analysis.mentalHealthTraits.stress}/10, Joy: ${analysis.mentalHealthTraits.joy}/10, Energy: ${analysis.mentalHealthTraits.energy}/10, Bold: ${analysis.mentalHealthTraits.bold}/10

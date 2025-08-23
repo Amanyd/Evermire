@@ -101,7 +101,7 @@ async function generateAIResponse(userMessage: string, recentPosts: Array<{
   timestamp: Date;
 }>) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     // Build context from posts
     const postsContext = recentPosts.length > 0 

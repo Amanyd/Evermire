@@ -246,7 +246,7 @@ export async function GET() {
 async function generateContextualSuggestions(last3Posts: PostDocument[]): Promise<Suggestions> {
   try {
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash-lite",
       generationConfig: {
         temperature: 0.7,
         topK: 40,
@@ -356,7 +356,15 @@ Return ONLY valid JSON in this exact format:
     const suggestions = JSON.parse(jsonString);
     
     // Validate that suggestions are detailed enough
-    const validateSuggestions = (suggestions: any) => {
+    interface SuggestionValidation {
+      activities: string[];
+      movies: string[];
+      songs: string[];
+      food: string[];
+      [key: string]: string[];
+    }
+
+    const validateSuggestions = (suggestions: SuggestionValidation) => {
       const categories = ['activities', 'movies', 'songs', 'food'];
       for (const category of categories) {
         if (!suggestions[category] || !Array.isArray(suggestions[category])) {

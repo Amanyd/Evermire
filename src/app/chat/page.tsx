@@ -116,7 +116,7 @@ export default function ChatPage() {
         </div>
 
         {/* Messages Container */}
-        <div className="flex-1 overflow-y-visible p-6 mt-18 pb-20 space-y-4 scrollbar-hide">
+        <div className="flex-1 overflow-y-visible p-6 mt-18 pb-20 space-y-4">
           {isLoadingHistory ? ( 
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
